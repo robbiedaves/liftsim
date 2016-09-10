@@ -18,6 +18,4 @@ public class Person {
         this.destination = destination;
     }
 
-
-
 }
