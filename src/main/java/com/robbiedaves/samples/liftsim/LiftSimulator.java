@@ -1,7 +1,7 @@
 package com.robbiedaves.samples.liftsim;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 /**
  * Author: Robin Davies
@@ -9,53 +9,40 @@ import java.util.concurrent.TimeUnit;
  */
 public class LiftSimulator {
 
-    ArrayList<Floor> floors = new ArrayList<Floor>();
-    ArrayList<Lift> lifts = new ArrayList<Lift>();
-    ArrayList<Person> people = new ArrayList<Person>();
+    ArrayList<Floor> floors = new ArrayList<>();
+    ArrayList<Lift> lifts = new ArrayList<>();
+    ArrayList<Person> people = new ArrayList<>();
     Integer maxNumberOfPeople;
 
-    public LiftSimulator(Integer numberOfFloors, Integer numberOfLifts, Integer liftCapacity, Integer maxNumberOfPeople){
+    List<Thread> liftThreads;
 
-        for (int i=1; i<=numberOfFloors; i++) {
+    public LiftSimulator() {
+        this(5, 12, 15, 100);
+    }
+
+    public LiftSimulator(Integer numberOfFloors,
+                         Integer numberOfLifts,
+                         Integer liftCapacity,
+                         Integer maxNumberOfPeople){
+
+        for (int i=0; i<=numberOfFloors; i++) {
             floors.add(new Floor(i));
         }
 
+        liftThreads = new ArrayList<>();
         for (int j=1; j<=numberOfLifts; j++) {
-            this.lifts.add(new Lift(String.valueOf(j), liftCapacity, floors.get(0)));
+            Lift l = new Lift(String.valueOf(j), liftCapacity, floors.get(0), 0, numberOfFloors);
+            lifts.add(l);
+            liftThreads.add(new Thread(l, "Lift"+j));
         }
 
         this.maxNumberOfPeople = maxNumberOfPeople;
     }
 
-    public void start(){
-        while (true){
-            this.performEvent();
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            this.printSim();
-        }
+    public void startSimulator(){
+        liftThreads.forEach(Thread::start);
     }
 
-    public void performEvent(){
-        //
-    }
-
-    public void printSim(){
-        //
-    }
-
-    public static void main(String[] args) {
-
-        // create lift simulator
-        LiftSimulator liftSim = new LiftSimulator(11, 6, 15, 100);
-        liftSim.start();
-
-
-
-    }
 
 
 }

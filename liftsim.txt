@@ -1,0 +1,13 @@
+Liftsim
+=======
+
+So we need to do the following:
+
+A lift will be running in its own thread
+The thread will keep the lift moving
+
+The simulator will create a new person regularly on a random floor going to a random destination.
+
+Java Swing - I used this tutorial: http://zetcode.com/tutorials/javaswingtutorial/
+
+
