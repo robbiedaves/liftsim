@@ -30,7 +30,6 @@ public class LiftSimApp extends JFrame {
 
         LiftSimModelUI modelUI = new LiftSimModelUI(liftSimulator);
         JScrollPane scrollModelUI = new JScrollPane(modelUI);
-        //add(modelUI);
         add(scrollModelUI);
 
         statusBar = new JLabel("Ready");

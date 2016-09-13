@@ -14,7 +14,7 @@ public class LiftSimulator {
     ArrayList<Person> people = new ArrayList<>();
     Integer maxNumberOfPeople;
 
-    List<Thread> liftThreads;
+    List<Thread> liftThreads = new ArrayList<>();
 
     public LiftSimulator() {
         this(5, 12, 15, 100);
@@ -29,7 +29,6 @@ public class LiftSimulator {
             floors.add(new Floor(i));
         }
 
-        liftThreads = new ArrayList<>();
         for (int j=1; j<=numberOfLifts; j++) {
             Lift l = new Lift(String.valueOf(j), liftCapacity, floors.get(0), 0, numberOfFloors);
             lifts.add(l);

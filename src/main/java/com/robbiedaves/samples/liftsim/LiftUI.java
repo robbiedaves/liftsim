@@ -42,6 +42,4 @@ public class LiftUI {
         return result; // + 40;
     }
 
-
-
 }
