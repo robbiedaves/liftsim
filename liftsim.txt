@@ -11,3 +11,83 @@ The simulator will create a new person regularly on a random floor going to a ra
 Java Swing - I used this tutorial: http://zetcode.com/tutorials/javaswingtutorial/
 
 
+Event / Listener Patter
+=======================
+from: http://www.javaworld.com/article/2077333/core-java/mr-happy-object-teaches-custom-events.html
+
+But we need to implement an event queue so many events can be submitted at once!
+
+Note: This is coupling the LiftUI to the LiftSim
+That means the UI will only work with a specific Sim and not the other way around!
+
+So we have 6 lifts
+and a UI
+
+The UI is the event listener
+
+There are a number of events
+The lifts fire events at intervals
+The lifts contain a list of registered listeners
+
+
+LiftInfo
+--------
+public class LiftInfo {
+	// make immutable
+	// used by UI to know what lift etc
+}
+
+
+Event
+-----
+-Make this immutable
+public class LiftEvent extends EventObject {
+	private LiftInfo _liftInfo // this needs to contain the lift info but immutable
+
+	public LiftEvent(Object source, LiftInfo info){
+		super(source);
+		_liftInfo = info;
+	}
+
+	public LiftInfo liftInfo(){
+		return _liftInfo;
+	}
+
+LiftEvent Listener Interface
+----------------------------
+public interface LiftListener {
+	public void LiftEventRecieved(LiftEvent event);
+}
+
+LiftEvent Generator
+-------------------
+pivate List _listeners = ArrayList();
+
+method----->
+	_fireLiftEvent();
+
+
+public syncronized void addLiftListener(LiftListener l){
+	_listeners.add(l);
+}
+public syncronized void removeLiftListener(LiftListener l){
+	_listeners.remove(l);
+}
+public syncronized void _fireLiftEvent(){
+	LiftEvent event = new LiftEvent(this, new LiftInfo(...));
+	Iterator listeners = _listeners.iterator();
+	while (listeners.hasNext()){
+		((LiftListener)listeners.next()).liftEventRecieved(event);
+	}
+}
+
+
+Listener Implementations
+------------------------
+now the UI needs to implement the listener
+public class UI implements LiftListener {
+	public void liftEventRecieved(LiftEvent event){
+		if.....
+		//do something...
+	}
+}
